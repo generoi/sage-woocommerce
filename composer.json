@@ -1,0 +1,43 @@
+{
+  "name": "generoi/sage-woocommerce",
+  "type": "library",
+  "license": "MIT",
+  "description": "",
+  "homepage": "https://github.com/generoi/sage-woocommerce",
+  "authors": [
+    {
+      "name": "Oskar Schöldström",
+      "email": "public@oxy.fi"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Genero\\Sage\\WooCommerce\\": "src/"
+    }
+  },
+  "require": {
+    "roots/acorn": "*"
+  },
+  "require-dev": {
+    "squizlabs/php_codesniffer": "~3.0"
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "scripts": {
+    "test": [
+      "phpcs --ignore=vendor --extensions=php --standard=PSR2 ."
+    ]
+  },
+  "archive" : {
+    "exclude": [
+      ".gitignore"
+    ]
+  },
+  "extra": {
+    "acorn": {
+      "providers": [
+        "Genero\\Sage\\WooCommerce\\WooCommerceServiceProvider"
+      ]
+    }
+  }
+}
