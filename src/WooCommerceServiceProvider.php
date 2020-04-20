@@ -28,6 +28,10 @@ class WooCommerceServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        if (!defined('WC_ABSPATH')) {
+            return;
+        }
+
         // Load the template hook overrides if available.
         locate_template('app/wc-template-hooks.php', true, true);
 
