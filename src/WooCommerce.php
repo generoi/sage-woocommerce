@@ -45,7 +45,7 @@ class WooCommerce
      */
     public function templateInclude(string $template): string
     {
-        if (strpos($template, \WC_ABSPATH) === -1) {
+        if (strpos($template, \WC_ABSPATH) === false) {
             return $template;
         }
         return $this->locateThemeTemplate($template) ?: $template;
@@ -57,7 +57,7 @@ class WooCommerce
     public function reviewsTemplate(string $template): string
     {
         // Unless it's a WC template, keep using the Sage's default filter.
-        if (strpos($template, \WC_ABSPATH) === -1) {
+        if (strpos($template, \WC_ABSPATH) === false) {
             return $this->sage->filterCommentsTemplate($template);
         }
 
