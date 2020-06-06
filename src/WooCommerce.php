@@ -3,7 +3,6 @@
 namespace Genero\Sage\WooCommerce;
 
 use Illuminate\Contracts\Container\Container as ContainerContract;
-use Roots\Acorn\Sage\Sage;
 use Roots\Acorn\Sage\ViewFinder;
 use Roots\Acorn\View\FileViewFinder;
 use Illuminate\Support\Str;
@@ -15,13 +14,11 @@ class WooCommerce
     public function __construct(
         ViewFinder $sageFinder,
         FileViewFinder $fileFinder,
-        Sage $sage,
         ContainerContract $app
     ) {
         $this->app = $app;
         $this->fileFinder = $fileFinder;
         $this->sageFinder = $sageFinder;
-        $this->sage = $sage;
     }
 
     /**
@@ -56,9 +53,8 @@ class WooCommerce
      */
     public function reviewsTemplate(string $template): string
     {
-        // Unless it's a WC template, keep using the Sage's default filter.
         if (strpos($template, \WC_ABSPATH) === false) {
-            return $this->sage->filterCommentsTemplate($template);
+            return $template;
         }
 
         return $this->template($template);

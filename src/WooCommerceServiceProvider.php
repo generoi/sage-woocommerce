@@ -41,14 +41,10 @@ class WooCommerceServiceProvider extends ServiceProvider
     public function bindFilters()
     {
         $woocommerce = $this->app['woocommerce'];
-        $sage = $this->app['sage'];
 
         add_filter('template_include', [$woocommerce, 'templateInclude'], 11);
         add_filter('woocommerce_locate_template', [$woocommerce, 'template']);
         add_filter('wc_get_template_part', [$woocommerce, 'template']);
-
-        // Unhook Sage's filter and run our filter after WooCommerce.
-        remove_filter('comments_template', [$sage, 'filterCommentsTemplate']);
         add_filter('comments_template', [$woocommerce, 'reviewsTemplate'], 11);
     }
 
