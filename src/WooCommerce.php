@@ -79,7 +79,7 @@ class WooCommerce
 
         // We have a template, create a loader file and return it's path.
         return view(
-            $this->fileFinder->getPossibleViewNameFromPath($themeTemplate)
+            $this->fileFinder->getPossibleViewNameFromPath(realpath($themeTemplate))
         )->makeLoader();
     }
 
