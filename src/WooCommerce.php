@@ -42,7 +42,7 @@ class WooCommerce
      */
     public function templateInclude(string $template): string
     {
-        if (strpos($template, \WC_ABSPATH) === false) {
+        if (!$this->isWooCommerceTemplate($template)) {
             return $template;
         }
         return $this->locateThemeTemplate($template) ?: $template;
@@ -53,7 +53,7 @@ class WooCommerce
      */
     public function reviewsTemplate(string $template): string
     {
-        if (strpos($template, \WC_ABSPATH) === false) {
+        if (!$this->isWooCommerceTemplate($template)) {
             return $template;
         }
 
@@ -84,7 +84,15 @@ class WooCommerce
     }
 
     /**
-     * Locate the theme's woocommerce blade template when available.
+     * Check if template is a WooCommerce template.
+     */
+    protected function isWooCommerceTemplate(string $template): bool
+    {
+        return strpos($template, \WC_ABSPATH) !== false;
+    }
+
+    /**
+     * Locate the theme's WooCommerce blade template when available.
      */
     protected function locateThemeTemplate(string $template): string
     {
