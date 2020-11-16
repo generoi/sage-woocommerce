@@ -57,30 +57,55 @@ class WooCommerce
             return $template;
         }
 
-        return $this->template($template);
+        return $this->templatePart($template);
+    }
+
+    /**
+     * Add blade templates for the woocommerce status page if user is admin and
+     * loaded wc status page.
+     */
+    public function getTemplate(string $template, string $templateName, array $args): string
+    {
+        $themeTemplate = $this->locateThemeTemplate($templateName);
+
+        // return theme filename for status screen
+        if (is_admin() &&
+            !wp_doing_ajax() &&
+            get_current_screen() &&
+            get_current_screen()->id === 'woocommerce_page_wc-status') {
+            return $themeTemplate ?: $template;
+        }
+
+        // return default template, output already rendered by "templatePart" method.
+        return $template;
     }
 
     /**
      * Filter a template path, taking into account theme templates and creating
      * blade loaders as needed.
      */
-    public function template(string $template): string
+    public function templatePart(string $template): string
     {
         // Locate any matching template within the theme.
         $themeTemplate = $this->locateThemeTemplate($template);
-        if (!$themeTemplate) {
-            return $template;
-        }
 
         // Include directly unless it's a blade file.
-        if (!Str::endsWith($themeTemplate, '.blade.php')) {
-            return $themeTemplate;
+        if ($themeTemplate && Str::endsWith($themeTemplate, '.blade.php')) {
+            // Gather data to be passed to view
+            $data = array_merge(
+                explode(' ', 'template_name template_path located args'),
+                collect(get_body_class())->reduce(function ($data, $class) {
+                    return apply_filters("sage/template/{$class}/data", $data);
+                }, [])
+            );
+            // We have a template, create a loader file and return it's path.
+            return view(
+                $this->fileFinder->getPossibleViewNameFromPath(realpath($themeTemplate)),
+                $data
+            )->makeLoader();
         }
 
-        // We have a template, create a loader file and return it's path.
-        return view(
-            $this->fileFinder->getPossibleViewNameFromPath(realpath($themeTemplate))
-        )->makeLoader();
+        return $template;
     }
 
     /**
