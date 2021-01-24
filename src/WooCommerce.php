@@ -70,14 +70,16 @@ class WooCommerce
         $themeTemplate = $this->locateThemeTemplate($template);
         if (!$themeTemplate) {
             return $template;
-        }else{
-            // return theme filename for status screen
-            if (is_admin() &&
-                !wp_doing_ajax() &&
-                get_current_screen() &&
-                'woocommerce_page_wc-status' === get_current_screen()->id ) {
-                return $themeTemplate;
-            }
+        }
+
+        // Return filename for status screen
+        if (
+            is_admin() &&
+            !wp_doing_ajax() &&
+            get_current_screen() &&
+            get_current_screen()->id === 'woocommerce_page_wc-status'
+        ) {
+            return $themeTemplate;
         }
 
         // Include directly unless it's a blade file.
