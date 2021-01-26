@@ -51,9 +51,9 @@ class WooCommerce
     /**
      * Support blade templates for the woocommerce comments/reviews.
      */
-    public function reviewsTemplate(string $template): string
+    public function reviewsTemplate(?string $template): ?string
     {
-        if (!$this->isWooCommerceTemplate($template)) {
+        if (!$template || !$this->isWooCommerceTemplate($template)) {
             return $template;
         }
 
