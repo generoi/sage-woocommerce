@@ -108,7 +108,7 @@ class WooCommerce
     {
         $themeTemplate = WC()->template_path() . str_replace(\WC_ABSPATH . 'templates/', '', $template);
         
-        if(is_child_theme()) {
+        if (is_child_theme()) {
             $themeTemplate = str_replace(get_template_directory(), '', $template);
         }
         
