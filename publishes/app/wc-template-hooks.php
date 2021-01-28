@@ -12,15 +12,15 @@ namespace App;
  */
 
 // remove_filter('body_class', 'wc_body_class');
-// remove_filter('post_class', 'wc_product_post_class', 20, 3);
+// remove_filter('post_class', 'wc_product_post_class', 20);
 
 /**
  * WP Header.
  *
  * @see wc_generator_tag()
  */
-// remove_filter('get_the_generator_html', 'wc_generator_tag', 10, 2);
-// remove_filter('get_the_generator_xhtml', 'wc_generator_tag', 10, 2);
+// remove_filter('get_the_generator_html', 'wc_generator_tag', 10);
+// remove_filter('get_the_generator_xhtml', 'wc_generator_tag', 10);
 
 /**
  * Content Wrappers.
@@ -45,7 +45,7 @@ namespace App;
  *
  * @see woocommerce_breadcrumb()
  */
-// remove_action('woocommerce_before_main_content', 'woocommerce_breadcrumb', 20, 0);
+// remove_action('woocommerce_before_main_content', 'woocommerce_breadcrumb', 20);
 
 /**
  * Sidebar.
