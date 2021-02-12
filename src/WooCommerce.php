@@ -106,7 +106,13 @@ class WooCommerce
      */
     protected function locateThemeTemplate(string $template): string
     {
-        $themeTemplate = WC()->template_path() . str_replace(\WC_ABSPATH . 'templates/', '', $template);
-        return locate_template($this->sageFinder->locate($themeTemplate));
+       $themeTemplate = str_replace(\WC_ABSPATH . 'templates/', '', $template);
+
+        if (is_child_theme() ) {
+            // Let child theme overwrite parent theme templates
+            $themeTemplate = str_replace(get_template_directory() . '/' . WC()->template_path(), '', $themeTemplate);
+        }
+
+        return locate_template($this->sageFinder->locate(WC()->template_path() . $themeTemplate));
     }
 }
