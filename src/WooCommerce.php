@@ -107,11 +107,6 @@ class WooCommerce
     protected function locateThemeTemplate(string $template): string
     {
         $themeTemplate = WC()->template_path() . str_replace(\WC_ABSPATH . 'templates/', '', $template);
-        
-        if(is_child_theme()) {
-            $themeTemplate = str_replace(get_template_directory(), '', $template);
-        }
-        
         return locate_template($this->sageFinder->locate($themeTemplate));
     }
 }
