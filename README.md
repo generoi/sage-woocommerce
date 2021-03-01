@@ -16,9 +16,10 @@ Publish the required `single-product.blade.php` and `archive-product.blade.php` 
 
     wp acorn vendor:publish --tag="WooCommerce Templates"
 
-Optionally publish a commented out `app/wc-template-hooks.php` file for customizing the WC template hooks.
+Optionally publish a commented out `app/wc-template-hooks.php` file for customizing the WC template hooks or an empty `app/wc-template-hooks.php` file for overriding WC template functions.
 
     wp acorn vendor:publish --tag="WooCommerce Template Hook Overrides"
+    wp acorn vendor:publish --tag="WooCommerce Template Functions Overrides"
 
 By default your theme has now declared WooCommerce support. To add support for specific features, add them to your `app/setup.php`
 

@@ -30,6 +30,14 @@ class WooCommerce
     }
 
     /**
+     * Load template functions overrides file if available in app/ folder of theme.
+     */
+    public function loadThemeTemplateFunctions()
+    {
+        locate_template('app/wc-template-functions.php', true, true);
+    }
+
+    /**
      * Declare theme support.
      */
     public function addThemeSupport(): void

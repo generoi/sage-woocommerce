@@ -25,6 +25,7 @@ class WooCommerceServiceProvider extends ServiceProvider
     {
         if (defined('WC_ABSPATH')) {
             $this->app['woocommerce']->loadThemeTemplateHooks();
+            $this->app['woocommerce']->loadThemeTemplateFunctions();
             $this->bindSetupAction();
             $this->bindFilters();
         }
@@ -36,6 +37,10 @@ class WooCommerceServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__ . '/../publishes/app/wc-template-hooks.php' => $this->app->path('wc-template-hooks.php'),
         ], 'WooCommerce Template Hook Overrides');
+
+        $this->publishes([
+            __DIR__ . '/../publishes/app/wc-template-functions.php' => $this->app->path('wc-template-functions.php'),
+        ], 'WooCommerce Template Functions Overrides');
     }
 
     public function bindFilters()
