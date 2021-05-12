@@ -106,7 +106,21 @@ class WooCommerce
      */
     protected function locateThemeTemplate(string $template): string
     {
-        $themeTemplate = WC()->template_path() . str_replace(\WC_ABSPATH . 'templates/', '', $template);
-        return locate_template($this->sageFinder->locate($themeTemplate));
+        $defaultPaths = apply_filters('sage_woocommerce_default_template_paths', [
+            WP_PLUGIN_DIR . '/woocommerce/templates/',
+            WP_PLUGIN_DIR . '/woocommerce-subscriptions/templates/',
+        ]);
+
+        $locatedTemplate = false;
+
+        foreach($defaultPaths as $defaultPath) {
+            $themeTemplate = WC()->template_path() . str_replace($defaultPath, '', $template);
+            $locatedTemplate = locate_template($this->sageFinder->locate($themeTemplate));
+
+            if($locatedTemplate) {
+                break;
+            }
+        }
+        return $locatedTemplate;
     }
 }
