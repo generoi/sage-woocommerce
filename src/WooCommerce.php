@@ -106,14 +106,21 @@ class WooCommerce
      */
     protected function relativeTemplatePath(string $template): string
     {
-        $relativeTemplate = str_replace(\WC_ABSPATH . 'templates/', '', $template);
+        $defaultPaths = [
+            // WooCommerce plugin templates
+            \WC_ABSPATH . 'templates/',
+        ];
 
         if (is_child_theme()) {
-            // Let child theme overwrite parent theme templates
-            $relativeTemplate = str_replace(get_template_directory() . '/' . WC()->template_path(), '', $relativeTemplate);
+            // Parent theme templates in woocommerce/ subfolder.
+            $defaultPaths[] = get_template_directory() . '/' . WC()->template_path();
         }
 
-        return $relativeTemplate;
+        return str_replace(
+            apply_filters('sage-woocommerce/templates', $defaultPaths),
+            '',
+            $template
+        );
     }
 
     /**
