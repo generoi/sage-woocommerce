@@ -27,3 +27,15 @@ add_theme_support('wc-product-gallery-zoom');
 add_theme_support('wc-product-gallery-lightbox');
 add_theme_support('wc-product-gallery-slider');
 ```
+
+## Filters
+
+```php
+/**
+ * Add support for WooCommerce Subscription templates.
+ */
+add_filter('sage-woocommerce/templates', function ($paths) {
+    $paths[] = WP_PLUGIN_DIR . '/woocommerce-subscriptions/templates/',
+    return $paths;
+]);
+```

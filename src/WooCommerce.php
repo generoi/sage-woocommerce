@@ -98,7 +98,29 @@ class WooCommerce
      */
     protected function isWooCommerceTemplate(string $template): bool
     {
-        return strpos($template, \WC_ABSPATH) !== false;
+        return $this->relativeTemplatePath($template) !== $template;
+    }
+
+    /**
+     * Return the theme relative template path.
+     */
+    protected function relativeTemplatePath(string $template): string
+    {
+        $defaultPaths = [
+            // WooCommerce plugin templates
+            \WC_ABSPATH . 'templates/',
+        ];
+
+        if (is_child_theme()) {
+            // Parent theme templates in woocommerce/ subfolder.
+            $defaultPaths[] = get_template_directory() . '/' . WC()->template_path();
+        }
+
+        return str_replace(
+            apply_filters('sage-woocommerce/templates', $defaultPaths),
+            '',
+            $template
+        );
     }
 
     /**
@@ -106,7 +128,9 @@ class WooCommerce
      */
     protected function locateThemeTemplate(string $template): string
     {
-        $themeTemplate = WC()->template_path() . str_replace(\WC_ABSPATH . 'templates/', '', $template);
+        // Absolute plugin template path -> woocommerce/single-product.php
+        $themeTemplate = WC()->template_path() . $this->relativeTemplatePath($template);
+        // Return absolute theme template path.
         return locate_template($this->sageFinder->locate($themeTemplate));
     }
 }
