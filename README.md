@@ -35,7 +35,7 @@ add_theme_support('wc-product-gallery-slider');
  * Add support for WooCommerce Subscription templates.
  */
 add_filter('sage-woocommerce/templates', function ($paths) {
-    $paths[] = WP_PLUGIN_DIR . '/woocommerce-subscriptions/templates/',
+    $paths[] = WP_PLUGIN_DIR . '/woocommerce-subscriptions/templates/';
     return $paths;
-]);
+});
 ```
