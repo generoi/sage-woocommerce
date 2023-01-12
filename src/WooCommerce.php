@@ -64,10 +64,10 @@ class WooCommerce
      * Filter a template path, taking into account theme templates and creating
      * blade loaders as needed.
      */
-    public function template(string $template, string $templateName): string
+    public function template(string $template, string $templateName = null): string
     {
         // Locate any matching template within the theme.
-        $themeTemplate = $this->locateThemeTemplate($templateName);
+        $themeTemplate = $this->locateThemeTemplate($templateName ?: $template);
         if (!$themeTemplate) {
             return $template;
         }
