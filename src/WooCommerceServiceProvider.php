@@ -43,10 +43,11 @@ class WooCommerceServiceProvider extends ServiceProvider
         $woocommerce = $this->app['woocommerce'];
 
         add_filter('template_include', [$woocommerce, 'templateInclude'], 11);
-        add_filter('woocommerce_locate_template', [$woocommerce, 'template']);
+        add_filter('woocommerce_locate_template', [$woocommerce, 'template'], 10, 2);
+        add_filter('woocommerce_locate_core_template', [$woocommerce, 'template'], 10, 2);
         add_filter('wc_get_template_part', [$woocommerce, 'template']);
-        add_filter('comments_template', [$woocommerce, 'reviewsTemplate'], 11);
         add_filter('wc_get_template', [$woocommerce, 'template'], 1000);
+        add_filter('comments_template', [$woocommerce, 'reviewsTemplate'], 11);
     }
 
     public function bindSetupAction()
