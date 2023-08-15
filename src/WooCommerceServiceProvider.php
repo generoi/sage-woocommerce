@@ -31,11 +31,11 @@ class WooCommerceServiceProvider extends ServiceProvider
 
         $this->publishes([
             __DIR__ . '/../publishes/resources/views' => $this->app->resourcePath('views/woocommerce'),
-        ], 'WooCommerce Templates');
+        ], 'woocommerce-template-views');
 
         $this->publishes([
             __DIR__ . '/../publishes/app/wc-template-hooks.php' => $this->app->path('wc-template-hooks.php'),
-        ], 'WooCommerce Template Hook Overrides');
+        ], 'woocommerce-template-hooks');
     }
 
     public function bindFilters()
