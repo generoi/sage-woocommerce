@@ -52,6 +52,10 @@ class WooCommerceServiceProvider extends ServiceProvider
 
     public function bindSetupAction()
     {
-        add_action('after_setup_theme', [$this->app['woocommerce'], 'addThemeSupport']);
+        if (doing_action('after_setup_theme')) {
+            $this->app['woocommerce']->addThemeSupport();
+        } else {
+            add_action('after_setup_theme', [$this->app['woocommerce'], 'addThemeSupport']);
+        }
     }
 }
