@@ -30,7 +30,11 @@ class WooCommerce
      */
     public function loadThemeTemplateHooks()
     {
-        locate_template('app/wc-template-hooks.php', true, true);
+        $templateHooks = locate_template('app/wc-template-hooks.php', false, false);
+
+        if ($templateHooks) {
+            require_once $templateHooks;
+        }
     }
 
     /**
@@ -77,8 +81,7 @@ class WooCommerce
         }
 
         // Return filename for status screen
-        if (
-            is_admin() &&
+        if (is_admin() &&
             !wp_doing_ajax() &&
             get_current_screen() &&
             get_current_screen()->id === 'woocommerce_page_wc-status'
