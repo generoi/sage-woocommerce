@@ -23,10 +23,10 @@ class WooCommerceServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        if (defined('WC_ABSPATH')) {
-            $this->app['woocommerce']->loadThemeTemplateHooks();
-            $this->bindSetupAction();
-            $this->bindFilters();
+        if (did_action('plugins_loaded')) {
+            $this->initialize();
+        } else {
+            add_action('plugins_loaded', [$this, 'initialize']);
         }
 
         $this->publishes([
@@ -36,6 +36,17 @@ class WooCommerceServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__ . '/../publishes/app/wc-template-hooks.php' => $this->app->path('wc-template-hooks.php'),
         ], 'woocommerce-template-hooks');
+    }
+
+    public function initialize()
+    {
+        if (! defined('WC_ABSPATH')) {
+            return;
+        }
+
+        $this->app['woocommerce']->loadThemeTemplateHooks();
+        $this->bindSetupAction();
+        $this->bindFilters();
     }
 
     public function bindFilters()
