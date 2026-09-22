@@ -139,12 +139,23 @@ class WooCommerce
         $themeTemplate = WC()->template_path() . $this->relativeTemplatePath($template);
         $directories = array_unique([get_stylesheet_directory(), get_template_directory()]);
 
+        // A candidate is only accepted when it resolves inside one of Acorn's
+        // registered view paths, matching the containment roots/acorn#572
+        // applies to the theme's own template hierarchy.
+        $viewPaths = [];
+
+        foreach ($this->fileFinder->getPaths() as $path) {
+            $viewPaths[] = trailingslashit(wp_normalize_path(realpath($path) ?: $path));
+        }
+
         // Resolve the candidates directly. WordPress' locate_template() rejects
         // theme-relative paths containing `..`, which is how Acorn addresses
         // views that live outside the theme directory.
         foreach ($this->sageFinder->locate($themeTemplate) as $candidate) {
             foreach ($directories as $directory) {
-                if ($path = realpath("{$directory}/{$candidate}")) {
+                $path = realpath("{$directory}/{$candidate}");
+
+                if ($path && Str::startsWith(wp_normalize_path($path), $viewPaths)) {
                     return $path;
                 }
             }
