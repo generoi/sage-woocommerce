@@ -137,7 +137,19 @@ class WooCommerce
     {
         // Absolute plugin template path -> woocommerce/single-product.php
         $themeTemplate = WC()->template_path() . $this->relativeTemplatePath($template);
-        // Return absolute theme template path.
-        return locate_template($this->sageFinder->locate($themeTemplate));
+        $directories = array_unique([get_stylesheet_directory(), get_template_directory()]);
+
+        // Resolve the candidates directly. WordPress' locate_template() rejects
+        // theme-relative paths containing `..`, which is how Acorn addresses
+        // views that live outside the theme directory.
+        foreach ($this->sageFinder->locate($themeTemplate) as $candidate) {
+            foreach ($directories as $directory) {
+                if ($path = realpath("{$directory}/{$candidate}")) {
+                    return $path;
+                }
+            }
+        }
+
+        return '';
     }
 }
