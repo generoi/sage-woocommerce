@@ -31,9 +31,11 @@ async function expectThankYouPage(page, order) {
 
 function expectOrderEmail(order) {
   // Matched on the order number in the email's heading, not on the item rows
-  // under test, so an email with a blank item table is still found.
+  // under test, so an email with a blank item table is still found. A bare #85
+  // would also match colours in the email's styles, like #8526ff.
+  const heading = new RegExp(`Order #${order}\\b`);
   const customer = script('state').mails.find(
-    (mail) => mail.to === 'customer@example.com' && mail.body.includes(`#${order}`),
+    (mail) => mail.to === 'customer@example.com' && heading.test(mail.body),
   );
 
   expect(customer, `customer email for order ${order}`).toBeTruthy();
