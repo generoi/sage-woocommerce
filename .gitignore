@@ -3,3 +3,6 @@ composer.lock
 .idea/
 .phpunit.result.cache
 .wp-env.override.json
+node_modules
+playwright-report
+test-results

@@ -1,16 +1,27 @@
 {
   "phpVersion": "8.3",
   "plugins": [
-    "https://downloads.wordpress.org/plugin/woocommerce.latest-stable.zip"
+    "https://downloads.wordpress.org/plugin/woocommerce.latest-stable.zip",
+    "https://downloads.wordpress.org/plugin/redis-cache.latest-stable.zip"
   ],
   "mappings": {
     "wp-content/plugins/sage-woocommerce": ".",
     "wp-content/themes/sage-woocommerce-test-theme": "./tests/fixtures/sage-woocommerce-test-theme"
   },
+  "env": {
+    "tests": {
+      "config": {
+        "WP_REDIS_DISABLED": true
+      }
+    }
+  },
   "config": {
     "WP_TESTS_DOMAIN": "localhost",
     "WP_TESTS_EMAIL": "test@genero.fi",
     "WP_TESTS_TITLE": "Sage WooCommerce",
-    "WP_PHP_BINARY": "php"
+    "WP_PHP_BINARY": "php",
+    "WP_REDIS_HOST": "sage-woocommerce-redis",
+    "WP_REDIS_CLIENT": "predis",
+    "WP_REDIS_PLUGIN_PATH": "/var/www/html/wp-content/plugins/redis-cache.latest-stable"
   }
 }

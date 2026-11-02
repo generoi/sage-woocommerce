@@ -1,0 +1,1 @@
+theme-archive-product
