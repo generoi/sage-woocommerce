@@ -58,8 +58,10 @@ class WooCommerce
             }
         }
 
-        remove_action('woocommerce_sidebar', 'woocommerce_get_sidebar', 10);
-        add_action('woocommerce_sidebar', [$this, 'fireSidebarAction'], 10);
+        // A theme that already removed core's callback doesn't want this either.
+        if (remove_action('woocommerce_sidebar', 'woocommerce_get_sidebar', 10)) {
+            add_action('woocommerce_sidebar', [$this, 'fireSidebarAction'], 10);
+        }
     }
 
     /**

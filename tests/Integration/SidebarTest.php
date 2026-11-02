@@ -32,6 +32,16 @@ class SidebarTest extends WP_UnitTestCase
         $this->assertSame('', $output);
     }
 
+    public function testThemeThatRemovedTheCoreCallbackGetsNoReplacement(): void
+    {
+        $woocommerce = Application::getInstance()->make('woocommerce');
+        remove_action('woocommerce_sidebar', 'woocommerce_get_sidebar', 10);
+
+        $woocommerce->replaceDefaultSidebar();
+
+        $this->assertFalse(has_action('woocommerce_sidebar', [$woocommerce, 'fireSidebarAction']));
+    }
+
     public function testThemeWithSidebarKeepsTheCoreCallback(): void
     {
         add_filter('stylesheet_directory', fn () => dirname(__DIR__) . '/fixtures/theme-with-sidebar');
