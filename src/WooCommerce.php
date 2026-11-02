@@ -59,9 +59,15 @@ class WooCommerce
         }
 
         remove_action('woocommerce_sidebar', 'woocommerce_get_sidebar', 10);
-        add_action('woocommerce_sidebar', function () {
-            do_action('get_sidebar', 'shop', []);
-        }, 10);
+        add_action('woocommerce_sidebar', [$this, 'fireSidebarAction'], 10);
+    }
+
+    /**
+     * Fire the action get_sidebar() would have, without loading a sidebar.
+     */
+    public function fireSidebarAction(): void
+    {
+        do_action('get_sidebar', 'shop', []);
     }
 
     /**
