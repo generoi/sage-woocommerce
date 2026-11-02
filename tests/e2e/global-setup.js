@@ -4,7 +4,8 @@ module.exports = async () => {
   wp('theme', 'activate', 'sage-woocommerce-test-theme');
   wp('acorn', 'optimize:clear');
 
-  const { product, productUrl } = script('setup');
+  const { product, productUrl, categoryUrl } = script('setup');
   process.env.E2E_PRODUCT_ID = String(product);
   process.env.E2E_PRODUCT_URL = productUrl;
+  process.env.E2E_CATEGORY_URL = categoryUrl;
 };

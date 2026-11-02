@@ -55,6 +55,13 @@
 // remove_action('woocommerce_sidebar', 'woocommerce_get_sidebar', 10);
 
 /**
+ * Archive header.
+ *
+ * @see woocommerce_product_taxonomy_archive_header()
+ */
+// remove_action('woocommerce_shop_loop_header', 'woocommerce_product_taxonomy_archive_header');
+
+/**
  * Archive descriptions.
  *
  * @see woocommerce_taxonomy_archive_description()
@@ -249,7 +256,7 @@
  * @see woocommerce_demo_store()
  */
 // remove_action('wp_footer', 'wc_print_js', 25);
-// remove_action('wp_footer', 'woocommerce_demo_store');
+// remove_action('wp_body_open', 'woocommerce_demo_store');
 
 /**
  * Order details.

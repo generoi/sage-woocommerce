@@ -6,7 +6,9 @@
   ],
   "mappings": {
     "wp-content/plugins/sage-woocommerce": ".",
-    "wp-content/themes/sage-woocommerce-test-theme": "./tests/fixtures/sage-woocommerce-test-theme"
+    "wp-content/themes/sage-woocommerce-test-theme": "./tests/fixtures/sage-woocommerce-test-theme",
+    "wp-content/themes/sage-woocommerce-published-theme": "./tests/fixtures/sage-woocommerce-published-theme",
+    "wp-content/themes/sage-woocommerce-published-theme/resources/views/woocommerce": "./publishes/resources/views"
   },
   "env": {
     "tests": {

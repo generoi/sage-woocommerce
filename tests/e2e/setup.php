@@ -30,7 +30,14 @@ $product->set_virtual(true);
 $product->set_status('publish');
 $product->save();
 
+$category = term_exists('e2e-category', 'product_cat') ?: wp_insert_term('E2E category', 'product_cat', [
+    'slug' => 'e2e-category',
+    'description' => 'E2E category description',
+]);
+wp_set_object_terms($product->get_id(), (int) $category['term_id'], 'product_cat');
+
 echo wp_json_encode([
     'product' => $product->get_id(),
     'productUrl' => get_permalink($product->get_id()),
+    'categoryUrl' => get_term_link((int) $category['term_id'], 'product_cat'),
 ]);
