@@ -11,7 +11,7 @@ the readme will list any important changes.
 
 @see https://docs.woocommerce.com/document/template-structure/
 @package WooCommerce/Templates
-@version 3.4.0
+@version 8.6.0
 --}}
 
 @extends('layouts.app')
@@ -20,17 +20,9 @@ the readme will list any important changes.
   @php
     do_action('get_header', 'shop');
     do_action('woocommerce_before_main_content');
+    // Outputs the page title and description. Needs WooCommerce 8.8 or newer.
+    do_action('woocommerce_shop_loop_header');
   @endphp
-
-  <header class="woocommerce-products-header">
-    @if (apply_filters('woocommerce_show_page_title', true))
-      <h1 class="woocommerce-products-header__title page-title">{!! woocommerce_page_title(false) !!}</h1>
-    @endif
-
-    @php
-      do_action('woocommerce_archive_description')
-    @endphp
-  </header>
 
   @if (woocommerce_product_loop())
     @php
@@ -60,6 +52,8 @@ the readme will list any important changes.
 
   @php
     do_action('woocommerce_after_main_content');
+    // Not core's woocommerce_sidebar, which loads WordPress' default sidebar in a
+    // theme without a sidebar.php.
     do_action('get_sidebar', 'shop');
     do_action('get_footer', 'shop');
   @endphp
