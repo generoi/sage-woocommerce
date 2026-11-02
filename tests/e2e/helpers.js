@@ -49,17 +49,26 @@ function useRedis(test) {
   });
 }
 
+/**
+ * Go to a page that has to load. With debug on, an error page prints the source
+ * of the failing template, so its text can't tell a crash from a rendered page.
+ */
+async function visit(page, url) {
+  const response = await page.goto(url);
+  expect(response.status(), url).toBeLessThan(400);
+}
+
 async function expectShopRendersThroughBlade(page) {
-  await page.goto('/shop/');
+  await visit(page, '/shop/');
   await expect(page.locator('body')).toContainText('theme-archive-product');
 
-  await page.goto(process.env.E2E_PRODUCT_URL);
+  await visit(page, process.env.E2E_PRODUCT_URL);
   await expect(page.locator('body')).toContainText('theme-content-single-product E2E product');
 
-  await page.goto(`/?add-to-cart=${process.env.E2E_PRODUCT_ID}`);
-  await page.goto('/cart/');
+  await visit(page, `/?add-to-cart=${process.env.E2E_PRODUCT_ID}`);
+  await visit(page, '/cart/');
   await expect(page.locator('body')).toContainText('theme-cart');
   await expect(page.locator('body')).not.toContainText('Failed to open stream');
 }
 
-module.exports = { wp, script, useRedis, expectShopRendersThroughBlade };
+module.exports = { wp, script, useRedis, visit, expectShopRendersThroughBlade };
