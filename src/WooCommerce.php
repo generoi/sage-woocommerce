@@ -46,6 +46,25 @@ class WooCommerce
     }
 
     /**
+     * Core's sidebar callback calls get_sidebar(), which falls back to WordPress'
+     * default sidebar in a theme without a sidebar.php. Sage themes have none, so
+     * only fire the action get_sidebar() would have.
+     */
+    public function replaceDefaultSidebar(): void
+    {
+        foreach ([get_stylesheet_directory(), get_template_directory()] as $path) {
+            if (file_exists("{$path}/sidebar-shop.php") || file_exists("{$path}/sidebar.php")) {
+                return;
+            }
+        }
+
+        remove_action('woocommerce_sidebar', 'woocommerce_get_sidebar', 10);
+        add_action('woocommerce_sidebar', function () {
+            do_action('get_sidebar', 'shop', []);
+        }, 10);
+    }
+
+    /**
      * Support blade templates for the main template include.
      */
     public function templateInclude(string $template): string
