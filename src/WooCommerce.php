@@ -101,6 +101,33 @@ class WooCommerce
     }
 
     /**
+     * Filter the path wc_get_template() is about to include, which WooCommerce
+     * may have read from its object cache without an expiry.
+     *
+     * A cached path that no longer exists, such as a deleted loader, is treated
+     * as a cache miss. Any other path is resolved by path rather than by name so
+     * that overrides from earlier filters are kept, eg. Klarna Checkout replacing
+     * checkout/form-checkout.php at priority 999.
+     *
+     * @param mixed $args
+     * @param mixed $templatePath
+     * @param mixed $defaultPath
+     */
+    public function cachedTemplate(
+        string $template,
+        string $templateName = '',
+        $args = [],
+        $templatePath = '',
+        $defaultPath = ''
+    ): string {
+        if ($templateName && !file_exists($template)) {
+            $template = wc_locate_template($templateName, $templatePath, $defaultPath);
+        }
+
+        return $this->template($template);
+    }
+
+    /**
      * Check if template is a WooCommerce template.
      */
     protected function isWooCommerceTemplate(string $template): bool

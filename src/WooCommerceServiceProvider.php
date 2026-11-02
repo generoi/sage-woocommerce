@@ -57,7 +57,7 @@ class WooCommerceServiceProvider extends ServiceProvider
         add_filter('woocommerce_locate_template', [$woocommerce, 'template'], 11, 2);
         add_filter('woocommerce_locate_core_template', [$woocommerce, 'template'], 10, 2);
         add_filter('wc_get_template_part', [$woocommerce, 'template']);
-        add_filter('wc_get_template', [$woocommerce, 'template'], 1000);
+        add_filter('wc_get_template', [$woocommerce, 'cachedTemplate'], 1000, 5);
         add_filter('comments_template', [$woocommerce, 'reviewsTemplate'], 11);
     }
 
