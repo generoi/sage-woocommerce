@@ -48,7 +48,10 @@
       ".wp-env.json",
       ".wp-env.override.json",
       "/.github",
+      "/package.json",
+      "/package-lock.json",
       "/phpunit.xml",
+      "/playwright.config.js",
       "/tests"
     ]
   },

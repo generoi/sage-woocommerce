@@ -116,14 +116,14 @@ class TemplateCacheTest extends WP_UnitTestCase
 
             return $paths;
         };
-        $swap = fn ($template, $name) => $name === 'checkout/form-checkout.php'
+        $swap = fn ($template, $name) => $name === 'myaccount/lost-password-confirmation.php'
             ? $plugin . 'payment-plugin-checkout.php'
             : $template;
 
         add_filter('sage-woocommerce/templates', $paths);
         add_filter('wc_get_template', $swap, 999, 2);
 
-        $this->assertSame('theme-payment-plugin-checkout', $this->render('checkout/form-checkout.php'));
+        $this->assertSame('theme-payment-plugin-checkout', $this->render('myaccount/lost-password-confirmation.php'));
 
         remove_filter('wc_get_template', $swap, 999);
         remove_filter('sage-woocommerce/templates', $paths);

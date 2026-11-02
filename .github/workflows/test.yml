@@ -8,7 +8,7 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 20
     strategy:
       fail-fast: false
       matrix:
@@ -24,10 +24,16 @@ jobs:
           php-version: '8.3'
           coverage: none
 
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
       - name: Install
         run: |
           composer require roots/acorn:"${{ matrix.ACORN_VERSION }}" --no-update
           composer install --prefer-dist --no-progress --no-interaction
+          npm ci --no-audit --no-fund
+          npx playwright install --with-deps chromium
 
       - name: Lint
         run: composer test
@@ -35,11 +41,22 @@ jobs:
       - name: Pin WooCommerce
         run: |
           cat > .wp-env.override.json <<EOF
-          {"plugins": ["https://downloads.wordpress.org/plugin/woocommerce.${{ matrix.WOOCOMMERCE_VERSION }}.zip"]}
+          {"plugins": ["https://downloads.wordpress.org/plugin/woocommerce.${{ matrix.WOOCOMMERCE_VERSION }}.zip", "https://downloads.wordpress.org/plugin/redis-cache.latest-stable.zip"]}
           EOF
 
       - name: Start wp-env
         run: npx @wordpress/env@latest start
 
-      - name: Run tests
+      - name: Integration tests
         run: composer test:integration
+
+      - name: E2E tests
+        run: npm run test:e2e
+
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-${{ strategy.job-index }}
+          path: |
+            playwright-report
+            test-results
