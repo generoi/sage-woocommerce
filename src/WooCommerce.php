@@ -129,6 +129,31 @@ class WooCommerce
     }
 
     /**
+     * Filter the path wc_get_template_part() is about to load.
+     *
+     * WooCommerce only looks for .php files, so a part that only exists as a Blade
+     * view arrives here without a path, and is looked up in the order WooCommerce
+     * would have. A part that exists nowhere stays empty, which WooCommerce skips.
+     *
+     * @param mixed $slug
+     * @param mixed $name
+     */
+    public function templatePart(string $template, $slug = '', $name = ''): string
+    {
+        if ($template) {
+            return $this->template($template);
+        }
+
+        foreach (array_filter([$name ? "{$slug}-{$name}.php" : '', $slug ? "{$slug}.php" : '']) as $part) {
+            if ($located = $this->template('', $part)) {
+                return $located;
+            }
+        }
+
+        return '';
+    }
+
+    /**
      * Check if template is a WooCommerce template.
      */
     protected function isWooCommerceTemplate(string $template): bool
