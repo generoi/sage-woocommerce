@@ -1,0 +1,45 @@
+name: Test
+
+on:
+  pull_request:
+  push:
+    branches: [master]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        WOOCOMMERCE_VERSION: [latest-stable, 10.0.2]
+        ACORN_VERSION: ['^6.0', '^5.0']
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          coverage: none
+
+      - name: Install
+        run: |
+          composer require roots/acorn:"${{ matrix.ACORN_VERSION }}" --no-update
+          composer install --prefer-dist --no-progress --no-interaction
+
+      - name: Lint
+        run: composer test
+
+      - name: Pin WooCommerce
+        run: |
+          cat > .wp-env.override.json <<EOF
+          {"plugins": ["https://downloads.wordpress.org/plugin/woocommerce.${{ matrix.WOOCOMMERCE_VERSION }}.zip"]}
+          EOF
+
+      - name: Start wp-env
+        run: npx @wordpress/env@latest start
+
+      - name: Run tests
+        run: composer test:integration
