@@ -140,7 +140,7 @@ class WooCommerce
      */
     public function templatePart(string $template, $slug = '', $name = ''): string
     {
-        if ($template) {
+        if ($template && file_exists($template)) {
             return $this->template($template);
         }
 
@@ -208,7 +208,7 @@ class WooCommerce
             foreach ($directories as $directory) {
                 $path = realpath("{$directory}/{$candidate}");
 
-                if ($path && Str::startsWith(wp_normalize_path($path), $viewPaths)) {
+                if ($path && is_file($path) && Str::startsWith(wp_normalize_path($path), $viewPaths)) {
                     return $path;
                 }
             }
