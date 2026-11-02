@@ -4,6 +4,8 @@
  * Prepares a shop that can take a guest order through the classic checkout.
  */
 
+delete_option('sage_woocommerce_e2e_mails');
+
 update_option('woocommerce_default_country', 'FI');
 update_option('woocommerce_coming_soon', 'no');
 update_option('woocommerce_store_pages_only', 'no');
