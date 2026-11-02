@@ -19,18 +19,37 @@
     "roots/acorn": "*"
   },
   "require-dev": {
-    "squizlabs/php_codesniffer": "~3.0"
+    "phpunit/phpunit": "^9.0",
+    "squizlabs/php_codesniffer": "~3.0",
+    "wp-phpunit/wp-phpunit": "^7.0",
+    "yoast/phpunit-polyfills": "^2.0"
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Genero\\Sage\\WooCommerce\\Tests\\": "tests/"
+    }
   },
   "minimum-stability": "dev",
   "prefer-stable": true,
   "scripts": {
     "test": [
-      "phpcs --ignore=vendor --extensions=php --standard=PSR2 ."
-    ]
+      "phpcs --ignore=vendor,tests/fixtures,*.blade.php --extensions=php --standard=PSR2 ."
+    ],
+    "test:integration": "npx @wordpress/env@latest run tests-cli --env-cwd=wp-content/plugins/sage-woocommerce php -d memory_limit=1024M vendor/bin/phpunit"
+  },
+  "config": {
+    "platform": {
+      "php": "8.3"
+    }
   },
   "archive" : {
     "exclude": [
-      ".gitignore"
+      ".gitignore",
+      ".wp-env.json",
+      ".wp-env.override.json",
+      "/.github",
+      "/phpunit.xml",
+      "/tests"
     ]
   },
   "extra": {

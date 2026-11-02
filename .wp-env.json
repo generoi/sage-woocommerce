@@ -1,0 +1,16 @@
+{
+  "phpVersion": "8.3",
+  "plugins": [
+    "https://downloads.wordpress.org/plugin/woocommerce.latest-stable.zip"
+  ],
+  "mappings": {
+    "wp-content/plugins/sage-woocommerce": ".",
+    "wp-content/themes/sage-woocommerce-test-theme": "./tests/fixtures/sage-woocommerce-test-theme"
+  },
+  "config": {
+    "WP_TESTS_DOMAIN": "localhost",
+    "WP_TESTS_EMAIL": "test@genero.fi",
+    "WP_TESTS_TITLE": "Sage WooCommerce",
+    "WP_PHP_BINARY": "php"
+  }
+}
