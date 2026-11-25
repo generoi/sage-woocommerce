@@ -74,8 +74,11 @@ test.describe('with a persistent object cache', () => {
     expect(cached.templates[EMAIL_ITEMS].cached).toContain('-loader.php');
     expect(cached.templates[THANKYOU].exists).toBe(true);
 
-    // What a deploy runs after flushing the object cache.
-    wp('acorn', 'optimize');
+    // A deploy that wipes compiled views, eg. with view:clear or optimize:clear,
+    // or acorn optimize before Acorn 6.4. From 6.4, view:cache recreates each
+    // view's loader at the same path, so optimize alone no longer leaves the
+    // cached paths stale.
+    wp('acorn', 'view:clear');
 
     // The state production was stuck in. Without this the test could pass
     // because the bug did not reproduce, rather than because it was handled.

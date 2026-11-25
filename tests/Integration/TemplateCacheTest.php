@@ -9,7 +9,7 @@ use WP_UnitTestCase;
 /**
  * wc_get_template() keeps the path it located in the object cache with no
  * expiry. For a Blade template that is a loader in the compiled views directory,
- * which view:clear and acorn optimize delete.
+ * which view:clear deletes, as did acorn optimize before Acorn 6.4.
  */
 class TemplateCacheTest extends WP_UnitTestCase
 {
