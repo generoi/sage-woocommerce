@@ -59,6 +59,7 @@ class WooCommerceServiceProvider extends ServiceProvider
         add_filter('wc_get_template_part', [$woocommerce, 'templatePart'], 10, 3);
         add_filter('wc_get_template', [$woocommerce, 'cachedTemplate'], 1000, 5);
         add_filter('comments_template', [$woocommerce, 'reviewsTemplate'], 11);
+        add_action('wp', [$woocommerce, 'replaceDefaultSidebar']);
     }
 
     public function bindSetupAction()

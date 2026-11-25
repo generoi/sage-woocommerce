@@ -52,9 +52,7 @@ the readme will list any important changes.
 
   @php
     do_action('woocommerce_after_main_content');
-    // Not core's woocommerce_sidebar, which loads WordPress' default sidebar in a
-    // theme without a sidebar.php.
-    do_action('get_sidebar', 'shop');
+    do_action('woocommerce_sidebar');
     do_action('get_footer', 'shop');
   @endphp
 @endsection

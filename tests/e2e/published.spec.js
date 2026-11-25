@@ -27,6 +27,7 @@ test.describe('templates a theme gets from vendor:publish', () => {
   /** Sage themes have no sidebar.php, so WordPress would fall back to its own. */
   async function expectNoDefaultSidebar(page) {
     await expect(page.locator('#app')).toContainText('hooked-into-get-sidebar-shop');
+    await expect(page.locator('#app')).toContainText('hooked-into-woocommerce-sidebar');
     await expect(page.locator('#sidebar, .widget, #secondary')).toHaveCount(0);
   }
 

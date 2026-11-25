@@ -17,6 +17,10 @@ add_action('after_setup_theme', function () {
         ->boot();
 }, 0);
 
+add_action('woocommerce_sidebar', function () {
+    echo '<p>hooked-into-woocommerce-sidebar</p>';
+}, 5);
+
 add_action('woocommerce_shop_loop_header', function () {
     echo '<p>hooked-into-shop-loop-header</p>';
 }, 5);
